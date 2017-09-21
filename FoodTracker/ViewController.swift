@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     //MARK: Properties
 
@@ -36,9 +36,32 @@ class ViewController: UIViewController, UITextFieldDelegate {
     //MARK: Actions
     
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
+        
+        //Hide the keyboard
+        nameTextField.resignFirstResponder()
+        
+        //UIImagePickerController is a view controller that lets a user pick media from their photo library 
+        let imagePickerController = UIImagePickerController()
+        
+        //Onluy allows photo to be picked, not taken
+        imagePickerController.sourceType = .photoLibrary
+        
+        //Make sure ViewController is notified when tha user picks an image
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true, completion: nil)
+        
     }
+    
     @IBAction func setDefaultLabelText(_ sender: UIButton) {
         mealNameLabel.text = "Default Text"
     }
+    
+    //MARK: UIImagePickerControllerDelegate
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        //Dismis the picker if the user canceled 
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
 
